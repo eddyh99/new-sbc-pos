@@ -34,7 +34,7 @@
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
                     <!--begin::Form-->
-                    <form id="form_kelompok" class="form" action="#" autocomplete="off">
+                    <form id="form_kategori" class="form" action="<?= base_url() ?>product/addkategori" method="post" autocomplete="off">
                         <!--begin::Input group-->
                         <div class="fv-row mb-5">
                             <!--begin::Label-->
@@ -42,7 +42,7 @@
                             <!--end::Label-->
 
                             <!--begin::Input Select-->
-                            <select class="form-select" data-control="select2" data-placeholder="Pilih Outlet">
+                            <select class="form-select" data-control="select2" data-placeholder="Pilih Outlet" name="outlet">
                                 <option></option>
                                 <option value="1">Option 1</option>
                                 <option value="2">Option 2</option>
@@ -70,7 +70,7 @@
                             <!--end::Label-->
 
                             <!--begin::Input Select-->
-                            <select class="form-select" data-control="select2" data-placeholder="Pilih Outlet">
+                            <select class="form-select" data-control="select2" data-placeholder="Pilih Outlet" name="kelompok">
                                 <option></option>
                                 <option value="1">Option 1</option>
                                 <option value="2">Option 2</option>
@@ -82,8 +82,8 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-5">
                             <div class="form-check form-switch form-check-custom form-check-success form-check-solid">
-                                <input class="form-check-input " type="checkbox" value="" id="flexSwitchDefault" />
-                                <label class="form-check-label" for="flexSwitchDefault">
+                                <input class="form-check-input" type="checkbox" value="1" name="show" id="show" />
+                                <label class="form-check-label" for="show">
                                     Tampilkan di menu?
                                 </label>
                             </div>
@@ -91,7 +91,7 @@
                         <!--end::Input group-->
 
                         <!--begin::Actions-->
-                        <button id="btn_submit_kelompok" type="submit" class="btn btn-primary">
+                        <button id="btn_submit_kategori" type="submit" class="btn btn-primary">
                             <span class="indicator-label">
                                 Simpan
                             </span>

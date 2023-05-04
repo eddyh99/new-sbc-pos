@@ -26,12 +26,261 @@
                 </div>
                 <!--end::Nav-->
                 <!--begin::Form-->
-                <form class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" id="kt_create_account_form">
+                <form class="mx-auto mw-600px w-100 pt-15 pb-10" novalidate="novalidate" id="form_kelompok">
                     <!--begin::Step 1-->
                     <div class="current" data-kt-stepper-element="content">
                         <!--begin::Wrapper-->
                         <div class="w-100">
+                            <div class="fv-row mb-10">
+                                <!--begin::Input group-->
+                                <div class="d-flex flex-column flex-md-row gap-5 mb-5">
+                                    <div class="fv-row flex-row-fluid">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">Satuan Terkecil</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input class="form-control" name="billing_order_address_1" placeholder="Satuan" value="" />
+                                        <!--end::Input-->
+                                    </div>
+                                    <div class="flex-row-fluid">
+                                        <!--begin::Label-->
+                                        <label class="form-label">Konversi</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input class="form-control" name="billing_order_address_2" placeholder="1" />
+                                        <!--end::Input-->
+                                    </div>
+                                    <div class="flex-row-fluid">
+                                        <!--begin::Label-->
+                                        <label class="form-label">SKU</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input class="form-control" name="billing_order_address_2" placeholder="SKU" />
+                                        <!--end::Input-->
+                                    </div>
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="d-flex flex-column flex-md-row gap-5 mb-5">
+                                    <div class="fv-row flex-row-fluid">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">Harga Beli</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input class="form-control" name="billing_order_address_1" placeholder="Harga Beli" value="" />
+                                        <!--end::Input-->
+                                    </div>
+                                    <div class="flex-row-fluid">
+                                        <!--begin::Label-->
+                                        <label class="form-label">Harga Jual</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input class="form-control" name="billing_order_address_2" placeholder="Harga Jual" />
+                                        <!--end::Input-->
+                                    </div>
+                                    <div class="flex-row-fluid">
+                                        <!--begin::Label-->
+                                        <label class="form-label">Min. Pembelian</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input class="form-control" name="billing_order_address_2" placeholder="1" />
+                                        <!--end::Input-->
+                                    </div>
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Title-->
+                                <div class="fs-3 fw-bold mb-3">Dimensi Produk</div>
+                                <!--end::Title-->
+                                <!--begin::Input group-->
+                                <div class="d-flex flex-column flex-md-row gap-5 mb-5">
+                                    <div class="fv-row flex-row-fluid">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">Volume Produk (P x L x T)</label>
+                                        <!--end::Label-->
 
+                                        <!--begin::Form group-->
+                                        <div class="form-group">
+                                            <div data-repeater-list="kt_ecommerce_add_product_options" class="d-flex flex-column gap-3">
+                                                <div data-repeater-item="" class="form-group d-flex flex-wrap align-items-center gap-5">
+                                                    <!--begin::Input-->
+                                                    <input type="text" class="form-control mw-50px text-center" name="product_option_value" placeholder="P" />
+                                                    <!--end::Input-->
+                                                    <!--begin::Input-->
+                                                    <input type="text" class="form-control mw-50px text-center" name="product_option_value" placeholder="L" />
+                                                    <!--end::Input-->
+                                                    <!--begin::Input-->
+                                                    <input type="text" class="form-control mw-50px text-center" name="product_option_value" placeholder="T" />
+                                                    <!--end::Input-->
+                                                    <span>cm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end::Form group-->
+                                    </div>
+
+                                    <div class="flex-row-fluid">
+                                        <!--begin::Label-->
+                                        <label class="form-label">Berat</label>
+                                        <!--end::Label-->
+
+                                        <!--begin::Form group-->
+                                        <div class="form-group">
+                                            <div data-repeater-list="kt_ecommerce_add_product_options" class="d-flex flex-column gap-3">
+                                                <div data-repeater-item="" class="form-group d-flex flex-wrap align-items-center gap-5">
+                                                    <!--begin::Input-->
+                                                    <input type="text" class="form-control mw-50px text-center" name="product_option_value" placeholder="P" />
+                                                    <!--end::Input-->
+                                                    <span>gram</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end::Form group-->
+                                    </div>
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+
+                            <hr>
+
+                            <!--begin::Repeater-->
+                            <div class="fv-row mb-10" id="addSubForm">
+                                <div data-repeater-list="addSubForm">
+                                    <div data-repeater-item>
+                                        <div class="col text-end">
+                                            <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-10 ms-auto">
+                                                <i class="ki-duotone ki-trash fs-2">
+                                                    <span class="path1"></span>
+                                                    <span class="path2"></span>
+                                                    <span class="path3"></span>
+                                                    <span class="path4"></span>
+                                                    <span class="path5"></span>
+                                                </i>
+                                            </a>
+                                        </div>
+                                        <!--begin::Input group-->
+                                        <div class="d-flex flex-column flex-md-row gap-5 mb-5">
+                                            <div class="fv-row flex-row-fluid">
+                                                <!--begin::Label-->
+                                                <label class="required form-label">Satuan Terkecil</label>
+                                                <!--end::Label-->
+                                                <!--begin::Input-->
+                                                <input class="form-control" name="billing_order_address_1" placeholder="Satuan" value="" />
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="flex-row-fluid">
+                                                <!--begin::Label-->
+                                                <label class="form-label">Konversi</label>
+                                                <!--end::Label-->
+                                                <!--begin::Input-->
+                                                <input class="form-control" name="billing_order_address_2" placeholder="1" />
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="flex-row-fluid">
+                                                <!--begin::Label-->
+                                                <label class="form-label">SKU</label>
+                                                <!--end::Label-->
+                                                <!--begin::Input-->
+                                                <input class="form-control" name="billing_order_address_2" placeholder="SKU" />
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                        <div class="d-flex flex-column flex-md-row gap-5 mb-5">
+                                            <div class="fv-row flex-row-fluid">
+                                                <!--begin::Label-->
+                                                <label class="required form-label">Harga Beli</label>
+                                                <!--end::Label-->
+                                                <!--begin::Input-->
+                                                <input class="form-control" name="billing_order_address_1" placeholder="Harga Beli" value="" />
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="flex-row-fluid">
+                                                <!--begin::Label-->
+                                                <label class="form-label">Harga Jual</label>
+                                                <!--end::Label-->
+                                                <!--begin::Input-->
+                                                <input class="form-control" name="billing_order_address_2" placeholder="Harga Jual" />
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="flex-row-fluid">
+                                                <!--begin::Label-->
+                                                <label class="form-label">Min. Pembelian</label>
+                                                <!--end::Label-->
+                                                <!--begin::Input-->
+                                                <input class="form-control" name="billing_order_address_2" placeholder="1" />
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Title-->
+                                        <div class="fs-3 fw-bold mb-3">Dimensi Produk</div>
+                                        <!--end::Title-->
+                                        <!--begin::Input group-->
+                                        <div class="d-flex flex-column flex-md-row gap-5 mb-5">
+                                            <div class="fv-row flex-row-fluid">
+                                                <!--begin::Label-->
+                                                <label class="required form-label">Volume Produk (P x L x T)</label>
+                                                <!--end::Label-->
+
+                                                <!--begin::Form group-->
+                                                <div class="form-group">
+                                                    <div data-repeater-list="kt_ecommerce_add_product_options" class="d-flex flex-column gap-3">
+                                                        <div data-repeater-item="" class="form-group d-flex flex-wrap align-items-center gap-5">
+                                                            <!--begin::Input-->
+                                                            <input type="text" class="form-control mw-50px text-center" name="product_option_value" placeholder="P" />
+                                                            <!--end::Input-->
+                                                            <!--begin::Input-->
+                                                            <input type="text" class="form-control mw-50px text-center" name="product_option_value" placeholder="L" />
+                                                            <!--end::Input-->
+                                                            <!--begin::Input-->
+                                                            <input type="text" class="form-control mw-50px text-center" name="product_option_value" placeholder="T" />
+                                                            <!--end::Input-->
+                                                            <span>cm</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--end::Form group-->
+                                            </div>
+
+                                            <div class="flex-row-fluid">
+                                                <!--begin::Label-->
+                                                <label class="form-label">Berat</label>
+                                                <!--end::Label-->
+
+                                                <!--begin::Form group-->
+                                                <div class="form-group">
+                                                    <div data-repeater-list="kt_ecommerce_add_product_options" class="d-flex flex-column gap-3">
+                                                        <div data-repeater-item="" class="form-group d-flex flex-wrap align-items-center gap-5">
+                                                            <!--begin::Input-->
+                                                            <input type="text" class="form-control mw-50px text-center" name="product_option_value" placeholder="P" />
+                                                            <!--end::Input-->
+                                                            <span>gram</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--end::Form group-->
+                                            </div>
+                                        </div>
+                                        <!--end::Input group-->
+
+                                        <hr>
+                                    </div>
+                                </div>
+                                <!--begin::Form group-->
+                                <div class="form-group mt-5">
+                                    <a href="javascript:;" data-repeater-create class="btn btn-light-primary">
+                                        <i class="ki-duotone ki-plus fs-3"></i>
+                                        Tambah Harga
+                                    </a>
+                                </div>
+                                <!--end::Form group-->
+                            </div>
+                            <!--end::Repeater-->
+
+                            <!--begin::Description-->
+                            <div class="text-muted fs-7">kosongkan harga jual, jika harga jual/min pembelian berdasarkan variasi produk</div>
+                            <!--end::Description-->
                         </div>
                         <!--end::Wrapper-->
                     </div>

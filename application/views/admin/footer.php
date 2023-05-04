@@ -59,9 +59,10 @@
 <!--end::Vendors Javascript-->
 <!--begin::Custom Javascript(used for this page only)-->
 
+<script src="<?= base_url() ?>assets/dashboardadmin/assets/js/custom/apps/projects/project/project.js"></script>
+<script src="<?= base_url() ?>assets/dashboardadmin/assets/plugins/custom/formrepeater/formrepeater.bundle.js"></script>
 <script src="<?= base_url() ?>assets/dashboardadmin/assets/js/custom/utilities/modals/create-account.js"></script>
 <script src="<?= base_url() ?>assets/dashboardadmin/assets/js/custom/apps/ecommerce/reports/views/views.js"></script>
-<script src="<?= base_url() ?>assets/dashboardadmin/assets/js/custom/apps/projects/project/project.js"></script>
 <script src="<?= base_url() ?>assets/dashboardadmin/assets/js/widgets.bundle.js"></script>
 <script src="<?= base_url() ?>assets/dashboardadmin/assets/js/custom/widgets.js"></script>
 <script src="<?= base_url() ?>assets/dashboardadmin/assets/js/custom/apps/chat/chat.js"></script>
@@ -69,11 +70,13 @@
 <script src="<?= base_url() ?>assets/dashboardadmin/assets/js/custom/utilities/modals/create-app.js"></script>
 <script src="<?= base_url() ?>assets/dashboardadmin/assets/js/custom/utilities/modals/new-target.js"></script>
 <script src="<?= base_url() ?>assets/dashboardadmin/assets/js/custom/utilities/modals/users-search.js"></script>
-<script src="<?= base_url() ?>assets/dashboardadmin/assets/plugins/custom/formrepeater/formrepeater.bundle.js"></script>
 <!--end::Custom Javascript-->
 <!--end::Javascript-->
 
 <?php
+if (isset($index_js)) {
+    $this->load->view($index_js);
+}
 if (isset($private_js)) {
     $this->load->view($private_js);
 }

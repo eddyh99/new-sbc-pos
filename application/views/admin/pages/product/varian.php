@@ -33,7 +33,7 @@
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
                     <!--begin::Form-->
-                    <form id="form_kelompok" class="form" action="#" autocomplete="off">
+                    <form id="form_varian" class="form" action="<?= base_url() ?>product/addvarian" method="post" autocomplete="off">
                         <!--begin::Input group-->
                         <div class="fv-row mb-5">
                             <!--begin::Label-->
@@ -58,7 +58,7 @@
                                             <!--end::Label-->
 
                                             <!--begin::Input-->
-                                            <input type="text" name="name" class="form-control mb-3 mb-lg-0" placeholder="Contoh : Merah / Putih, XL/L/M" value="" />
+                                            <input type="text" name="sub" class="form-control mb-3 mb-lg-0" placeholder="Contoh : Merah / Putih, XL/L/M" value="" />
                                             <!--end::Input-->
                                         </div>
 
@@ -88,7 +88,7 @@
                         <!--end::Input group-->
 
                         <!--begin::Actions-->
-                        <button id="btn_submit_kelompok" type="submit" class="btn btn-primary">
+                        <button id="btn_submit_varian" type="submit" class="btn btn-primary">
                             <span class="indicator-label">
                                 Simpan
                             </span>

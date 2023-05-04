@@ -33,7 +33,7 @@
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
                     <!--begin::Form-->
-                    <form id="form_kelompok" class="form" action="#" autocomplete="off">
+                    <form id="form_kelompok" class="form" action="<?= base_url() ?>product/addkelompok" method="post" autocomplete="off">
                         <!--begin::Input group-->
                         <div class="fv-row mb-10">
                             <!--begin::Label-->
