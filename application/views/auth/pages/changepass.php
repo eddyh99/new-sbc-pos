@@ -7,7 +7,6 @@
 					<div class="header">
 						<img src="<?= base_url() ?>assets/images/logo.png" alt="<?= NAMETITLE ?>" class="img-logo">
 						<h2>Atur Ulang Kata Sandi</h2>
-						<p>Masukkan Email yang terhubung dengan akun sbc untuk mengatur ulang kata sandi</p>
 					</div>
 					<div class="form-auth">
 						<?php if (@isset($_SESSION["failed"])) { ?>
@@ -16,17 +15,41 @@
 								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 							</div>
 						<?php } ?>
-						<form method="POST" action="<?= base_url(); ?>auth/forgetpass" class="col-12">
+						<form method="POST" action="<?= base_url(); ?>auth/changepass" class="col-12">
+							<input type="text" name="token" id="token" value="<?= $_SESSION["token"] ?>" hidden>
 							<div class="col-12 mb-4">
-								<label for="email" class="form-label">Email</label>
+								<label for="password" class="form-label">Kata Sandi</label>
 								<div class="input-group">
 									<div class="input-group-text">
 										<span>
-											<i class="fa fa-user"></i>
+											<i class="fa fa-lock"></i>
 										</span>
 									</div>
-									<input type="text" name="email" class="form-control" id="email" placeholder="Type here" required>
+									<input type="password" name="password" class="form-control" id="password" placeholder="*****************" required>
+									<div class="input-group-text">
+										<span>
+											<i class="far fa-eye-slash" id="togglePassword" style="cursor: pointer" toggle="#password"></i>
+										</span>
+									</div>
 								</div>
+								<?= form_error('password', '<small class="text-danger pl-3">', '</small>'); ?>
+							</div>
+							<div class="col-12 mb-3">
+								<label for="password" class="form-label">Ulang Kata Sandi</label>
+								<div class="input-group">
+									<div class="input-group-text">
+										<span>
+											<i class="fa fa-lock"></i>
+										</span>
+									</div>
+									<input type="password" name="confirmpassword" class="form-control" id="password1" placeholder="*****************" required>
+									<div class="input-group-text">
+										<span>
+											<i class="far fa-eye-slash" id="togglePassword1" style="cursor: pointer" toggle="#password1"></i>
+										</span>
+									</div>
+								</div>
+								<?= form_error('confirmpassword', '<small class="text-danger pl-3">', '</small>'); ?>
 							</div>
 
 							<div class="col-12 d-grid gap-2 mb-2">

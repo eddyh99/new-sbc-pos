@@ -87,3 +87,10 @@ defined('EXIT__AUTO_MAX')      or define('EXIT__AUTO_MAX', 125); // highest auto
 
 
 define('NAMETITLE', "POS");
+
+define('URLAPI', "http://localhost/api.pos.com");
+
+/*email config*/
+define('HOST_EMAIL', "mail.tracklessbank.com");
+define('USERNAME_EMAIL', "no-reply@tracklessbank.com");
+define('PASS_EMAIL', 'DLgV4o?L1B]m');

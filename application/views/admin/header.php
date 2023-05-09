@@ -183,7 +183,7 @@
                                             <!--end::Avatar-->
                                             <!--begin::Username-->
                                             <div class="d-flex flex-column">
-                                                <div class="fw-bold d-flex align-items-center fs-5">Atom
+                                                <div class="fw-bold d-flex align-items-center fs-5"><?= $_SESSION['nama'] ?>
                                                     <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span>
                                                 </div>
                                                 <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">Admin</a>
@@ -214,7 +214,7 @@
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-5">
-                                        <a href="#" class="menu-link px-5">Sign Out</a>
+                                        <a href="<?= base_url()?>auth/logout" class="menu-link px-5">Sign Out</a>
                                     </div>
                                     <!--end::Menu item-->
                                 </div>
@@ -263,7 +263,7 @@
                     <!--begin::sidebar menu-->
                     <div class="app-sidebar-menu overflow-hidden flex-column-fluid">
                         <!--begin::Menu wrapper-->
-                        <div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper hover-scroll-overlay-y my-5" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer" data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
+                        <div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper hover-scroll-overlay-y my-5" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer" data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true" style="overflow-y: hidden;">
                             <!--begin::Menu-->
                             <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
                                 <!--begin:Menu item-->
