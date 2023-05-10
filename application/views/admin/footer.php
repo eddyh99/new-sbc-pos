@@ -4,16 +4,16 @@
 <!--end::Content wrapper-->
 <!--begin::Footer-->
 <div id="kt_app_footer" class="app-footer">
-    <!--begin::Footer container-->
-    <div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
-        <!--begin::Copyright-->
-        <div class="text-dark order-2 order-md-1">
-            <span class="text-muted fw-semibold me-1"><?= date('Y'); ?> &copy;</span>
-            <a href="#" target="_blank" class="text-gray-800 text-hover-primary">SoftwareBali</a>
-        </div>
-        <!--end::Copyright-->
-    </div>
-    <!--end::Footer container-->
+	<!--begin::Footer container-->
+	<div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
+		<!--begin::Copyright-->
+		<div class="text-dark order-2 order-md-1">
+			<span class="text-muted fw-semibold me-1"><?= date('Y'); ?> &copy;</span>
+			<a href="#" target="_blank" class="text-gray-800 text-hover-primary">SoftwareBali</a>
+		</div>
+		<!--end::Copyright-->
+	</div>
+	<!--end::Footer container-->
 </div>
 <!--end::Footer-->
 </div>
@@ -27,16 +27,16 @@
 
 <!--begin::Scrolltop-->
 <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
-    <i class="ki-duotone ki-arrow-up">
-        <span class="path1"></span>
-        <span class="path2"></span>
-    </i>
+	<i class="ki-duotone ki-arrow-up">
+		<span class="path1"></span>
+		<span class="path2"></span>
+	</i>
 </div>
 <!--end::Scrolltop-->
 
 <!--begin::Javascript-->
 <script>
-    var hostUrl = "assets/";
+	var hostUrl = "assets/";
 </script>
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 <script src="<?= base_url() ?>assets/dashboardadmin/assets/plugins/global/plugins.bundle.js"></script>
@@ -75,12 +75,28 @@
 
 <?php
 if (isset($index_js)) {
-    $this->load->view($index_js);
+	$this->load->view($index_js);
 }
 if (isset($private_js)) {
-    $this->load->view($private_js);
+	$this->load->view($private_js);
 }
+if (@isset($_SESSION['success_create_outlet'])) {
 ?>
+	<script>
+		setTimeout(function() {
+			// Show popup confirmation
+			Swal.fire({
+				text: "Outlet berhasil dibauat!",
+				icon: "success",
+				buttonsStyling: false,
+				confirmButtonText: "Ok!",
+				customClass: {
+					confirmButton: "btn btn-primary"
+				}
+			});
+		}, 100);
+	</script>
+<?php } ?>
 </body>
 <!--end::Body-->
 

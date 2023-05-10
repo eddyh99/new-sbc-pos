@@ -33,7 +33,7 @@
 				<!--begin::Card body-->
 				<div class="card-body pt-0">
 					<!--begin::Form-->
-					<form id="form_kelompok" class="form" action="<?= base_url() ?>product/addkelompok" method="post" autocomplete="off">
+					<form id="form_kelompok" class="form" method="post" autocomplete="off">
 						<!--begin::Input group-->
 						<div class="fv-row mb-10">
 							<!--begin::Label-->
@@ -41,7 +41,7 @@
 							<!--end::Label-->
 
 							<!--begin::Input-->
-							<input type="text" name="name" class="form-control mb-3 mb-lg-0" placeholder="Contoh : Makanan" value="" />
+							<input type="text" id="name" name="name" class="form-control mb-3 mb-lg-0" placeholder="Contoh : Makanan" value="" />
 							<!--end::Input-->
 						</div>
 						<!--end::Input group-->
@@ -70,31 +70,29 @@
 			<!--begin::Table-->
 			<div class="card card-flush mt-6 mt-xl-9">
 				<!--begin::Card header-->
-				<div class="card-header mt-5">
+				<div class="card-header align-items-center py-5 gap-2 gap-md-5">
 					<!--begin::Card title-->
-					<div class="card-title flex-column">
-						<h3 class="fw-bold mb-1">Daftar Kelompok</h3>
-						<!-- <div class="fs-6 text-gray-400">Total $260,300 sepnt so far</div> -->
+					<div class="card-title">
+						<!--begin::Search-->
+						<div class="d-flex align-items-center position-relative my-1">
+							<i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span class="path2"></span></i>
+							<input type="text" data-kt-docs-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search Customers" />
+						</div>
+						<!--end::Search-->
+						<!--begin::Export buttons-->
+						<div id="kt_ecommerce_report_views_export" class="d-none"></div>
+						<!--end::Export buttons-->
 					</div>
 					<!--end::Card title-->
 					<!--begin::Card toolbar-->
-					<div class="card-toolbar my-1">
+					<div class="card-toolbar flex-row-fluid justify-content-end gap-5">
 						<!--begin::Select-->
 						<div class="me-6 my-1">
 							<a class="btn btn-sm fw-bold btn-primary" data-bs-toggle="collapse" href="#addData" role="button" aria-expanded="false" aria-controls="addData">Tambah Kelompok</a>
 						</div>
 						<!--end::Select-->
-						<!--begin::Search-->
-						<div class="d-flex align-items-center position-relative my-1">
-							<i class="ki-duotone ki-magnifier fs-3 position-absolute ms-3">
-								<span class="path1"></span>
-								<span class="path2"></span>
-							</i>
-							<input type="text" id="kt_filter_search" class="form-control form-control-solid form-select-sm w-150px ps-9" placeholder="Search..." />
-						</div>
-						<!--end::Search-->
 					</div>
-					<!--begin::Card toolbar-->
+					<!--end::Card toolbar-->
 				</div>
 				<!--end::Card header-->
 				<!--begin::Card body-->
@@ -102,21 +100,14 @@
 					<!--begin::Table container-->
 					<div class="table-responsive">
 						<!--begin::Table-->
-						<table id="kt_profile_overview_table" class="table table-row-bordered table-row-dashed gy-4 align-middle fw-bold">
-							<thead class="fs-7 text-gray-400 text-uppercase">
-								<tr>
+						<table id="kt_datatable_kelompok" class="table align-middle table-row-dashed fs-6 gy-5">
+							<thead>
+								<tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
 									<th class="min-w-90px">Kelompok</th>
 									<th class="min-w-50px ">Jumlah Kategori</th>
 								</tr>
 							</thead>
-							<tbody class="fs-6">
-								<?php
-								foreach ($dt_kelompok as $dt) { ?>
-									<tr>
-										<td><?= $dt->kelompok; ?></td>
-										<td class=""><?= $dt->jml; ?></td>
-									</tr>
-								<?php } ?>
+							<tbody class="text-gray-600 fw-semibold">
 							</tbody>
 						</table>
 						<!--end::Table-->

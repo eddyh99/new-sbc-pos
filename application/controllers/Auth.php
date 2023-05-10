@@ -37,24 +37,69 @@ class Auth extends CI_Controller
 		$url = URLAPI . "/v1/auth/signin";
 		$result = apisbc($url, json_encode($mdata));
 		if (@$result->code != 200) {
-			$this->session->set_flashdata('failed', $result->message);
+			$this->session->set_flashdata('failed', $result->messages);
 			redirect(base_url() . "auth");
 			return;
 		}
 
-		$userid = $result->message->id;
+		$userid = $result->messages->id;
 		$session_data = array(
 			'user_id'   => $userid,
-			'appid'   => $result->message->appid,
-			'email'   => $result->message->email,
-			'passwd'   => $result->message->passwd,
-			'nama'   => $result->message->nama,
-			'status'   => $result->message->status,
-			'created_at'   => $result->message->created_at,
-			'update_at'   => $result->message->update_at
+			'appid'   => $result->messages->appid,
+			'email'   => $result->messages->email,
+			'passwd'   => $result->messages->passwd,
+			'nama'   => $result->messages->nama,
+			'status'   => $result->messages->status,
+			'created_at'   => $result->messages->created_at,
+			'update_at'   => $result->messages->update_at
 		);
 		$this->session->set_userdata($session_data);
 		redirect('dashboard');
+	}
+
+
+	public function createOutlet()
+	{
+		$data = array(
+			"title"     => NAMETITLE,
+			"content"   => "auth/pages/outlet",
+		);
+
+		$this->form_validation->set_rules('namaoutlet', '', 'trim|required');
+		$this->form_validation->set_rules('alamat', '', 'trim|required');
+		$this->form_validation->set_rules('kota', '', 'trim|required');
+		$this->form_validation->set_rules('telp', '', 'trim|required');
+		$this->form_validation->set_rules('bisnis_category', '', 'trim|required');
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->load->view('auth/wrapper', $data);
+		} else {
+			$namaoutlet = $this->security->xss_clean($this->input->post('namaoutlet'));
+			$alamat = $this->security->xss_clean($this->input->post('alamat'));
+			$kota = $this->security->xss_clean($this->input->post('kota'));
+			$telp = $this->security->xss_clean($this->input->post('telp'));
+			$bisnis_category = $this->security->xss_clean($this->input->post('bisnis_category'));
+
+			$mdata = array(
+				'member_id' => $_SESSION['user_id'],
+				'namaoutlet' => $namaoutlet,
+				'alamat' => $alamat,
+				'kota' => $kota,
+				'telp' => $telp,
+				'bisnis_category' => $bisnis_category,
+			);
+
+			$url = URLAPI . "/v1/outlet/add_outlet";
+			$result = apisbc($url, json_encode($mdata));
+			if (@$result->code != 200) {
+				$this->session->set_flashdata('failed', $result->messages);
+				$this->load->view('auth/wrapper', $data);
+				return;
+			}
+
+			$this->session->set_flashdata('success_create_outlet', 'Outlet berhasil dibauat!');
+			redirect('dashboard');
+		}
 	}
 
 	public function regis()
@@ -92,21 +137,21 @@ class Auth extends CI_Controller
 
 			if ($result->code == 200) {
 				$subject = 'SBC-POS Registration';
-				$message =
+				$messages =
 					'<h3>Selamat datang di pendaftaran Akun SBC-POS! Silahkan Konfirmasi!</h3><br>
 				<p>Anda telah mendaftarkan akun SBC-POS dengan ' . $email . '. Silahkan pilih "Aktivasi Sekarang" untuk mengkonfirmasi akun Anda.</p><br>
 
-				<a href="' . base_url("auth/activate?token=") . $result->message->token . '"
+				<a href="' . base_url("auth/activate?token=") . $result->messages->token . '"
 				style="text-decoration: none; border: none; background: #04295D; padding: .5rem 1rem; color: #FFFFFF;"
 				>Aktivasi Sekarang</a>
 				';
-				// send_email($email, $subject, $message, $this->phpmailer_lib->load());
+				// send_email($email, $subject, $messages, $this->phpmailer_lib->load());
 
-				$this->session->set_flashdata('token', $result->message->token);
+				$this->session->set_flashdata('token', $result->messages->token);
 				redirect(base_url() . "auth/regis_notif");
 				return;
 			} else {
-				$this->session->set_flashdata('failed', $result->message);
+				$this->session->set_flashdata('failed', $result->messages);
 				$this->load->view('auth/wrapper', $data);
 				return;
 			}
@@ -134,7 +179,7 @@ class Auth extends CI_Controller
 			redirect(base_url() . "auth");
 			return;
 		} else {
-			$this->session->set_flashdata('failed', $result->message);
+			$this->session->set_flashdata('failed', $result->messages);
 			redirect(base_url() . "auth");
 			return;
 		}
@@ -158,21 +203,21 @@ class Auth extends CI_Controller
 			$result = apisbc($url);
 			if (!empty(@$result->code == 200)) {
 				$subject =  'Reset Password for ' . NAMETITLE . ' Account';
-				$message =
+				$messages =
 					'<p>Dear ' . $email . ',</p>
 				<p>Seseorang mencoba untuk mengganti kata sandi anda. Jika orang tersebut adalah Anda, silakan tekan "Ubah Password" di bawah untuk mengonfirmasi identitas Anda.</p><br>
 
-				<a href="' . base_url("auth/recovery?token=") . $result->message->token . '"
+				<a href="' . base_url("auth/recovery?token=") . $result->messages->token . '"
 				style="text-decoration: none; border: none; background: #04295D; padding: .5rem 1rem; color: #FFFFFF;"
 				>Ubah Password</a>
 				';
-				// send_email($email, $subject, $message, $this->phpmailer_lib->load());
+				// send_email($email, $subject, $messages, $this->phpmailer_lib->load());
 
-				$this->session->set_flashdata('token', $result->message->token);
+				$this->session->set_flashdata('token', $result->messages->token);
 				redirect(base_url() . "auth/forgetpass_notif");
 				return;
 			} else {
-				$this->session->set_flashdata('failed', $result->message);
+				$this->session->set_flashdata('failed', $result->messages);
 				$this->load->view('auth/wrapper', $data);
 				return;
 			}
@@ -202,11 +247,11 @@ class Auth extends CI_Controller
 		$result = apisbc($url);
 
 		if (!empty(@$result->code == 200)) {
-			$this->session->set_flashdata('token', $result->message->token);
+			$this->session->set_flashdata('token', $result->messages->token);
 			redirect(base_url() . "auth/changepass");
 			return;
 		} else {
-			$this->session->set_flashdata('failed', $result->message);
+			$this->session->set_flashdata('failed', $result->messages);
 			redirect(base_url() . "auth");
 			return;
 		}
@@ -241,7 +286,7 @@ class Auth extends CI_Controller
 				$this->session->set_flashdata("success", "Your password is successfully changed");
 				redirect(base_url() . "auth");
 			} else {
-				$this->session->set_flashdata("failed", $result->message);
+				$this->session->set_flashdata("failed", $result->messages);
 				redirect(base_url() . "auth");
 			}
 		}

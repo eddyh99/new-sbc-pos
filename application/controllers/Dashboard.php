@@ -9,6 +9,12 @@ class Dashboard extends CI_Controller
 		if (empty($this->session->userdata('user_id'))) {
 			redirect('auth');
 		}
+
+		$url = URLAPI . "/v1/outlet/get_outlet?member_id=" . $_SESSION['user_id'];
+		$result = apisbc($url);
+		if (empty($result)) {
+			redirect('auth/createOutlet');
+		}
 	}
 
 	public function index()
