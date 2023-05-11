@@ -12,12 +12,16 @@ class Product extends CI_Controller
 	}
 	public function kelompok()
 	{
+		$url = URLAPI . "/v1/kelompok/get_data_kelompok?member_id=" . $_SESSION['user_id'];
+		$kelompok   = apisbc($url)->messages;
+
 		$data = array(
 			"title"     => NAMETITLE . " - Product",
 			"content"   => "admin/pages/product/kelompok/kelompok",
 			"titlehead"     => "Product / Daftar Kelompok",
 			"show_produk"   => "show",
 			"mn_produk1"   => "active",
+			"dt_kelompok"   => $kelompok,
 			"private_js"   => "admin/pages/product/js/kelompok_js",
 		);
 
@@ -62,13 +66,66 @@ class Product extends CI_Controller
 		echo json_encode($messages);
 	}
 
+	public function editkelompok()
+	{
+		$this->form_validation->set_rules('id', 'Id', 'trim|required');
+		$this->form_validation->set_rules('name', 'Kelompok', 'trim|required');
+
+		if ($this->form_validation->run() == FALSE) {
+			header('HTTP/1.1 500 Internal Server Error');
+			$messages = "Data tidak boleh kosong";
+		} else {
+			$input		= $this->input;
+			$id		= $this->security->xss_clean($input->post("id"));
+			$nama		= $this->security->xss_clean($input->post("name"));
+
+			$mdata = array(
+				'kelompok'     => $nama,
+				'kelompok_id' => $id
+			);
+
+			$url = URLAPI . "/v1/kelompok/update_kelompok";
+			$result = apisbc($url, json_encode($mdata));
+
+			if (@$result->code == 200) {
+				$messages = "Data berhasil ditambah!";
+			} else {
+				header('HTTP/1.1 500 Internal Server Error');
+				$messages = $result->messages;
+			}
+		}
+
+		echo json_encode($messages);
+	}
+
+	public function deletekelompok()
+	{
+		$id = $this->security->xss_clean($this->input->get('kelompok'));
+
+		$url = URLAPI . "/v1/kelompok/delete_kelompok?kelompok_id=" . $id;
+		$result = apisbc($url);
+
+		if (@$result->code == 200) {
+			$messages = "Data berhasil dihapus!";
+		} else {
+			header('HTTP/1.1 500 Internal Server Error');
+			$messages = $result->messages;
+		}
+
+		echo json_encode($messages);
+	}
+
 	public function kategori()
 	{
+
 		$url_kelompok = URLAPI . "/v1/kelompok/get_data_kelompok?member_id=" . $_SESSION['user_id'];
 		$kelompok   = apisbc($url_kelompok)->messages;
 
 		$url_outlet = URLAPI . "/v1/outlet/get_outlet?member_id=" . $_SESSION['user_id'];
 		$outlet   = apisbc($url_outlet)->messages;
+
+		$url_kategori = URLAPI . "/v1/kategori/get_data_kategori?member_id=" . $_SESSION['user_id'];
+		$kategori = apisbc($url_kategori)->messages;
 
 		$data = array(
 			"title"     => NAMETITLE . " - Product",
@@ -78,7 +135,8 @@ class Product extends CI_Controller
 			"mn_produk2"   => "active",
 			"private_js"   => "admin/pages/product/js/kategori_js",
 			"dt_kelompok"   => $kelompok,
-			"dt_outlet"   => $outlet,
+			"dt_outlet"   	=> $outlet,
+			"dt_kategori"   => $kategori,
 		);
 
 		$this->load->view('admin/wrapper', $data);
