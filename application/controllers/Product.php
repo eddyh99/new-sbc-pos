@@ -117,12 +117,14 @@ class Product extends CI_Controller
 
 	public function kategori()
 	{
-
 		$url_kelompok = URLAPI . "/v1/kelompok/get_data_kelompok?member_id=" . $_SESSION['user_id'];
 		$kelompok   = apisbc($url_kelompok)->messages;
 
 		$url_outlet = URLAPI . "/v1/outlet/get_outlet?member_id=" . $_SESSION['user_id'];
 		$outlet   = apisbc($url_outlet)->messages;
+
+		$url_kt_outlet = URLAPI . "/v1/outlet/get_kategori_outlet";
+		$kt_outlet   = apisbc($url_kt_outlet)->messages;
 
 		$url_kategori = URLAPI . "/v1/kategori/get_data_kategori?member_id=" . $_SESSION['user_id'];
 		$kategori = apisbc($url_kategori)->messages;
@@ -136,6 +138,7 @@ class Product extends CI_Controller
 			"private_js"   => "admin/pages/product/js/kategori_js",
 			"dt_kelompok"   => $kelompok,
 			"dt_outlet"   	=> $outlet,
+			"dt_kt_outlet"	=> $kt_outlet,
 			"dt_kategori"   => $kategori,
 		);
 
@@ -148,6 +151,160 @@ class Product extends CI_Controller
 		$data['kategori'] = apisbc($url)->messages;
 
 		echo json_encode($data);
+	}
+
+	public function editkategori($id)
+	{
+		$url_kelompok = URLAPI . "/v1/kelompok/get_data_kelompok?member_id=" . $_SESSION['user_id'];
+		$kelompok   = apisbc($url_kelompok)->messages;
+
+		$url_outlet = URLAPI . "/v1/outlet/get_outlet?member_id=" . $_SESSION['user_id'];
+		$outlet   = apisbc($url_outlet)->messages;
+
+		$url_kt_outlet = URLAPI . "/v1/outlet/get_kategori_outlet";
+		$kt_outlet   = apisbc($url_kt_outlet)->messages;
+
+		$url_kategori = URLAPI . "/v1/kategori/getbyId_kategori?id=" . $id;
+		$kategori = apisbc($url_kategori)->messages;
+		$data = array(
+			"title"     => NAMETITLE . " - Product",
+			"content"   => "admin/pages/product/kategori/form-edit",
+			"titlehead"     => "Product / Daftar Kategori",
+			"show_produk"   => "show",
+			"mn_produk2"   => "active",
+			"private_js"   => "admin/pages/product/js/kategori_js",
+			"dt_kelompok"   => $kelompok,
+			"dt_outlet"   	=> $outlet,
+			"dt_kt_outlet"	=> $kt_outlet,
+			"dt_kategori"   => $kategori,
+		);
+
+		$this->form_validation->set_rules('name', 'Nama Kategori', 'trim|required');
+		$this->form_validation->set_rules('kelompok', 'Kelompok', 'trim|required');
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->load->view('admin/wrapper', $data);
+			return;
+		} else {
+			$input		= $this->input;
+			$nama		= $this->security->xss_clean($input->post("name"));
+			$kelompok		= $this->security->xss_clean($input->post("kelompok"));
+			$old_ot		= $this->security->xss_clean($input->post("old_ot"));
+			$new_ot		= $this->security->xss_clean($input->post("addNewOT"));
+
+			$outlet = array();
+			if ($new_ot == NULL) {
+				if ($old_ot == NULL) {
+					$this->session->set_flashdata('failed', "Outlet tidak boleh kosong!");
+					$this->load->view('admin/wrapper', $data);
+					return;
+				}
+				$new_ot == NULL;
+			} elseif ($old_ot == NULL) {
+				if ($new_ot == NULL) {
+					$this->session->set_flashdata('failed', "Outlet tidak boleh kosong!");
+					$this->load->view('admin/wrapper', $data);
+					return;
+				}
+				$old_ot == NULL;
+			}
+
+			foreach ($old_ot as $key => $subValue) {
+				if (@$subValue['show'] == NULL) {
+					$subValue['show'] = 'no';
+				} else {
+					$subValue['show'] = 'yes';
+				}
+
+				if ($subValue['ot']) {
+					$tempold["id"] = $subValue['ot'];
+					$tempold["showmenu"] = $subValue['show'];
+					array_push($outlet, @$tempold);
+				}
+			}
+
+			foreach ($new_ot as $key => $subValue) {
+				if (@$subValue['new_show'] == NULL) {
+					$subValue['new_show'] = 'no';
+				} else {
+					$subValue['new_show'] = 'yes';
+				}
+
+				if ($subValue['new_ot']) {
+					$tempnew["id"] = $subValue['new_ot'];
+					$tempnew["showmenu"] = $subValue['new_show'];
+					array_push($outlet, @$tempnew);
+				}
+			}
+
+			$mdata = array(
+				'kategori_id' => $id,
+				'kelompok_id'  => $kelompok,
+				'kategori'  => $nama,
+				'outlet' => $outlet
+			);
+
+			$url = URLAPI . "/v1/kategori/update_kategori";
+			$result = apisbc($url, json_encode($mdata));
+
+
+			if (@$result->code == 200) {
+				$this->session->set_flashdata('success', 'Data berhasil dirubah!');
+				redirect('product/kategori');
+				return;
+			} else {
+				$this->session->set_flashdata('failed', $result->messages);
+				redirect('product/editkategori/' . $id);
+				return;
+			}
+		}
+	}
+
+	public function list_ot_kt()
+	{
+		$input		= $this->input;
+		$id_outlets = $this->security->xss_clean($input->post("id_outlets", FILTER_SANITIZE_STRING));
+		$id_kt = $this->security->xss_clean($input->post("id_kt", FILTER_SANITIZE_STRING));
+
+		$url_kt_outlet = URLAPI . "/v1/outlet/get_kategori_outlet";
+		$kt_outlet   = apisbc($url_kt_outlet)->messages;
+
+		$url_outlet = URLAPI . "/v1/outlet/get_outlet?member_id=" . $_SESSION['user_id'];
+		$outlet   = apisbc($url_outlet)->messages;
+
+		$listot = explode(",", $id_outlets);
+
+		$data = array(
+			"listot"     => $listot,
+			"id_outlets"     => $id_outlets,
+			"id_kt"   		=> $id_kt,
+			"dt_outlet"   	=> $outlet,
+			"dt_kt_outlet"	=> $kt_outlet,
+		);
+
+		$response = array(
+			"messages"   => utf8_encode($this->load->view('admin/pages/product/kategori/list-otlet-kategori', $data, TRUE))
+		);
+
+		echo json_encode($response);
+	}
+
+	public function delete_list_ot_kategori()
+	{
+		$kt = $this->security->xss_clean($this->input->get('kt'));
+		$ot = $this->security->xss_clean($this->input->get('ot'));
+
+		$url = URLAPI . "/v1/outlet/delete_list_ot_kategori?kt=" . $kt . "&ot=" . $ot;
+		$result = apisbc($url);
+
+		if (@$result->code == 200) {
+			$messages = "Data berhasil dihapus!";
+		} else {
+			header('HTTP/1.1 500 Internal Server Error');
+			$messages = $result->messages;
+		}
+
+		echo json_encode($messages);
 	}
 
 	public function addkategori()
@@ -198,6 +355,24 @@ class Product extends CI_Controller
 				header('HTTP/1.1 500 Internal Server Error');
 				$messages = $result->messages;
 			}
+		}
+
+		echo json_encode($messages);
+	}
+
+
+	public function deletekategori()
+	{
+		$id = $this->security->xss_clean($this->input->get('kategori'));
+
+		$url = URLAPI . "/v1/kategori/delete_kategori?kategori_id=" . $id;
+		$result = apisbc($url);
+
+		if (@$result->code == 200) {
+			$messages = "Data berhasil dihapus!";
+		} else {
+			header('HTTP/1.1 500 Internal Server Error');
+			$messages = $result->messages;
 		}
 
 		echo json_encode($messages);

@@ -191,7 +191,6 @@
 			</div>
 			<!--end::Col-->
 		<?php } ?>
-
 	</div>
 	<!--end::Row-->
 </div>

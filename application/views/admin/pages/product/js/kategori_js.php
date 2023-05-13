@@ -1,4 +1,20 @@
 <script>
+	showList_Ot_Kt();
+
+	function showList_Ot_Kt() {
+		$.ajax({
+			url: "<?= base_url() ?>product/list_ot_kt",
+			method: "post",
+			data: $("#form_change_kategori").serialize(),
+			cache: false,
+			success: function(response) {
+				var data = JSON.parse(response);
+				$("#list_ot_kt").html(data.messages);
+				// console.log(data);
+			},
+		});
+	}
+
 	// Repeater
 	$('#addSubForm').repeater({
 		initEmpty: false,
@@ -16,123 +32,215 @@
 		}
 	});
 
-	// Define form element
-	const form = document.getElementById('form_kategori');
+	// Repeater
+	$('#addNewOT').repeater({
+		initEmpty: false,
 
-	// Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
-	var validator = FormValidation.formValidation(
-		form, {
-			fields: {
-				'outlet': {
-					validators: {
-						notEmpty: {
-							message: 'Outlet is required'
-						}
-					}
-				},
-				'name': {
-					validators: {
-						notEmpty: {
-							message: 'Name is required'
-						}
-					}
-				},
-				'kelompok': {
-					validators: {
-						notEmpty: {
-							message: 'Kelompok is required'
-						}
-					}
-				},
-			},
+		defaultValues: {
+			'text-input': 'foo'
+		},
 
-			plugins: {
-				trigger: new FormValidation.plugins.Trigger(),
-				bootstrap: new FormValidation.plugins.Bootstrap5({
-					rowSelector: '.fv-row',
-					eleInvalidClass: '',
-					eleValidClass: ''
-				})
-			}
-		}
-	);
+		show: function() {
+			$(this).slideDown();
+		},
 
-	// Submit button handler
-	const submitButton = document.getElementById('btn_submit_kategori');
-	submitButton.addEventListener('click', function(e) {
-		// Prevent default button action
-		e.preventDefault();
-
-		// Validate form before submit
-		if (validator) {
-			validator.validate().then(function(status) {
-				if (status == 'Valid') {
-					// Show loading indication
-					submitButton.setAttribute('data-kt-indicator', 'on');
-
-					// Disable button to avoid multiple click
-					submitButton.disabled = true;
-
-					var form = $('#form_kategori').serialize();
-					$.ajax({
-						type: 'POST',
-						url: "<?= base_url() ?>product/addkategori",
-						data: form,
-						cache: false,
-						error: function(xhr, status, error) {
-							// Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
-							setTimeout(function() {
-								// Remove loading indication
-								submitButton.removeAttribute('data-kt-indicator');
-
-								// Enable button
-								submitButton.disabled = false;
-
-								// Show popup confirmation
-								Swal.fire({
-									text: "Data gagal ditambah",
-									icon: "error",
-									buttonsStyling: false,
-									confirmButtonText: "Ok!",
-									customClass: {
-										confirmButton: "btn btn-danger"
-									}
-								});
-							}, 2000);
-
-						},
-						success: function(data) {
-							Colforminput = document.getElementById('addData');
-							// Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
-							setTimeout(function() {
-								// Remove loading indication
-								submitButton.removeAttribute('data-kt-indicator');
-
-								// Enable button
-								submitButton.disabled = false;
-
-								// Hide Form
-								Colforminput.classList.remove("show");
-
-								// Show popup confirmation
-								Swal.fire({
-									text: "Data berhasil ditambah",
-									icon: "success",
-									buttonsStyling: false,
-									confirmButtonText: "Ok!",
-									customClass: {
-										confirmButton: "btn btn-primary"
-									}
-								});
-
-								showList();
-							}, 2000);
-						}
-					});
-				}
-			});
+		hide: function(deleteElement) {
+			$(this).slideUp(deleteElement);
 		}
 	});
+
+	// Define form element
+	const form = document.getElementById('form_kategori');
+	if (form) {
+		// Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
+		var validator = FormValidation.formValidation(
+			form, {
+				fields: {
+					'outlet': {
+						validators: {
+							notEmpty: {
+								message: 'Outlet is required'
+							}
+						}
+					},
+					'name': {
+						validators: {
+							notEmpty: {
+								message: 'Name is required'
+							}
+						}
+					},
+					'kelompok': {
+						validators: {
+							notEmpty: {
+								message: 'Kelompok is required'
+							}
+						}
+					},
+				},
+
+				plugins: {
+					trigger: new FormValidation.plugins.Trigger(),
+					bootstrap: new FormValidation.plugins.Bootstrap5({
+						rowSelector: '.fv-row',
+						eleInvalidClass: '',
+						eleValidClass: ''
+					})
+				}
+			}
+		);
+
+		// Submit button handler
+		const submitButton = document.getElementById('btn_submit_kategori');
+		submitButton.addEventListener('click', function(e) {
+			// Prevent default button action
+			e.preventDefault();
+
+			// Validate form before submit
+			if (validator) {
+				validator.validate().then(function(status) {
+					if (status == 'Valid') {
+						// Show loading indication
+						submitButton.setAttribute('data-kt-indicator', 'on');
+
+						// Disable button to avoid multiple click
+						submitButton.disabled = true;
+
+						var form = $('#form_kategori').serialize();
+						$.ajax({
+							type: 'POST',
+							url: "<?= base_url() ?>product/addkategori",
+							data: form,
+							cache: false,
+							error: function(xhr, status, error) {
+								// Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
+								setTimeout(function() {
+									// Remove loading indication
+									submitButton.removeAttribute('data-kt-indicator');
+
+									// Enable button
+									submitButton.disabled = false;
+
+									// Show popup confirmation
+									Swal.fire({
+										text: "Data gagal ditambah",
+										icon: "error",
+										buttonsStyling: false,
+										confirmButtonText: "Ok!",
+										customClass: {
+											confirmButton: "btn btn-danger"
+										}
+									});
+								}, 2000);
+
+							},
+							success: function(data) {
+								Colforminput = document.getElementById('addData');
+								// Simulate form submission. For more info check the plugin's official documentation: https://sweetalert2.github.io/
+								setTimeout(function() {
+									// Remove loading indication
+									submitButton.removeAttribute('data-kt-indicator');
+
+									// Enable button
+									submitButton.disabled = false;
+
+									// Hide Form
+									Colforminput.classList.remove("show");
+
+									// Show popup confirmation
+									Swal.fire({
+										text: "Data berhasil ditambah",
+										icon: "success",
+										buttonsStyling: false,
+										confirmButtonText: "Ok!",
+										customClass: {
+											confirmButton: "btn btn-primary"
+										}
+									});
+
+									showList();
+								}, 2000);
+							}
+						});
+					}
+				});
+			}
+		});
+	}
+
+	function deleteKtOT(kt, ot) {
+		// SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
+		Swal.fire({
+			text: "Apakah kamu yakin menghapus ini?",
+			icon: "warning",
+			showCancelButton: true,
+			buttonsStyling: false,
+			confirmButtonText: "Yes, delete!",
+			cancelButtonText: "No, cancel",
+			customClass: {
+				confirmButton: "btn fw-bold btn-danger",
+				cancelButton: "btn fw-bold btn-active-light-primary"
+			}
+		}).then(function(result) {
+			if (result.value) {
+				$.ajax({
+					type: 'POST',
+					url: "<?= base_url() ?>product/delete_list_ot_kategori?kt=" + kt + "&ot=" + ot,
+					cache: false,
+					error: function(xhr, status, error) {
+						Swal.fire({
+							text: "Deleting!",
+							icon: "info",
+							buttonsStyling: false,
+							showConfirmButton: false,
+							timer: 2000
+						}).then(function() {
+							Swal.fire({
+								text: "Gagal dihapus!.",
+								icon: "error",
+								buttonsStyling: false,
+								confirmButtonText: "Ok!",
+								customClass: {
+									confirmButton: "btn fw-bold btn-primary",
+								}
+							})
+						});
+					},
+					success: function(data) {
+						Swal.fire({
+							text: "Deleting!",
+							icon: "info",
+							buttonsStyling: false,
+							showConfirmButton: false,
+							timer: 2000
+						}).then(function() {
+							Swal.fire({
+								text: "Berhasil dihapus!.",
+								icon: "success",
+								buttonsStyling: false,
+								confirmButtonText: "Ok!",
+								customClass: {
+									confirmButton: "btn fw-bold btn-primary",
+								}
+							}).then(function() {
+								showList_Ot_Kt(kt);
+							});
+						});
+					}
+				});
+			} else if (result.dismiss === 'cancel') {
+				Swal.fire({
+					text: "Batal dihapus!.",
+					icon: "error",
+					buttonsStyling: false,
+					confirmButtonText: "Ok!",
+					customClass: {
+						confirmButton: "btn fw-bold btn-primary",
+					}
+				});
+			}
+		});
+	}
 
 	showList();
 
@@ -176,13 +284,13 @@
 							data: 'kategori'
 						},
 						{
-							data: null, // belum disetting
-							render: function(data, type, row) {
-								return '0';
-							}
+							data: 'jml_produk',
+							// render: function(data, type, row) {
+							// 	return '0';
+							// }
 						},
 						{
-							data: null
+							data: 'id'
 						},
 					],
 					columnDefs: [{
@@ -203,7 +311,7 @@
 							className: 'text-end',
 							render: function(data, type, row) {
 								return `
-                            <a data-bs-toggle="collapse" href="#changeData` + data.id + `" role="button" aria-expanded="false" aria-controls="changeData` + data.id + `"  class="btn btn-light-success btn-active-success btn-sm btnchangeData` + data.id + `">
+                            <a href="<?= base_url() ?>product/editkategori/` + data + `" class="btn btn-light-success btn-active-success btn-sm">
 								<i class="ki-duotone fs-2 ki-notepad-edit">
 									<i class="path1"></i>
 									<i class="path2"></i>
@@ -237,9 +345,12 @@
 			// Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
 			var handleSearchDatatable = function() {
 				const filterSearch = document.querySelector('[data-kt-docs-table-filter="search"]');
-				filterSearch.addEventListener('keyup', function(e) {
-					dt.search(e.target.value).draw();
-				});
+				if (filterSearch) {
+					filterSearch.addEventListener('keyup', function(e) {
+						dt.search(e.target.value).draw();
+					});
+
+				}
 			}
 
 			// Delete customer
@@ -256,12 +367,12 @@
 						const parent = e.target.closest('tr');
 
 						// Get customer name
-						const kelompok = parent.querySelectorAll('td')[1].innerText;
+						const kategori = parent.querySelectorAll('td')[1].innerText;
 						const id = parent.querySelectorAll('td span')[0].innerText;
 
 						// SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
 						Swal.fire({
-							text: "Apakah kamu yakin menghapus " + kelompok + "? Data yang terkait dengan data " + kelompok + " tersebut akan dihapus juga!",
+							text: "Apakah kamu yakin menghapus " + kategori + "? Data yang terkait dengan data " + kategori + " tersebut akan dihapus juga!",
 							icon: "warning",
 							showCancelButton: true,
 							buttonsStyling: false,
@@ -275,18 +386,18 @@
 							if (result.value) {
 								$.ajax({
 									type: 'POST',
-									url: "<?= base_url() ?>product/deletekelompok?kelompok=" + id,
+									url: "<?= base_url() ?>product/deletekategori?kategori=" + id,
 									cache: false,
 									error: function(xhr, status, error) {
 										Swal.fire({
-											text: "Deleting " + kelompok,
+											text: "Deleting " + kategori,
 											icon: "info",
 											buttonsStyling: false,
 											showConfirmButton: false,
 											timer: 2000
 										}).then(function() {
 											Swal.fire({
-												text: kelompok + " gagal dihapus!.",
+												text: kategori + " gagal dihapus!.",
 												icon: "error",
 												buttonsStyling: false,
 												confirmButtonText: "Ok!",
@@ -298,14 +409,14 @@
 									},
 									success: function(data) {
 										Swal.fire({
-											text: "Deleting " + kelompok,
+											text: "Deleting " + kategori,
 											icon: "info",
 											buttonsStyling: false,
 											showConfirmButton: false,
 											timer: 2000
 										}).then(function() {
 											Swal.fire({
-												text: "Berhasil menghapus " + kelompok + "!.",
+												text: "Berhasil menghapus " + kategori + "!.",
 												icon: "success",
 												buttonsStyling: false,
 												confirmButtonText: "Ok!",
@@ -320,7 +431,7 @@
 								});
 							} else if (result.dismiss === 'cancel') {
 								Swal.fire({
-									text: kelompok + " tidak dihapus!.",
+									text: kategori + " tidak dihapus!.",
 									icon: "error",
 									buttonsStyling: false,
 									confirmButtonText: "Ok!",
@@ -339,17 +450,19 @@
 				// Toggle selected action toolbar
 				// Select all checkboxes
 				const container = document.querySelector('#kt_datatable_kategori');
-				const checkboxes = container.querySelectorAll('[type="checkbox"]');
+				if (container) {
+					const checkboxes = container.querySelectorAll('[type="checkbox"]');
 
-				// Toggle delete selected toolbar
-				checkboxes.forEach(c => {
-					// Checkbox on click event
-					c.addEventListener('click', function() {
-						setTimeout(function() {
-							toggleToolbars();
-						}, 50);
+					// Toggle delete selected toolbar
+					checkboxes.forEach(c => {
+						// Checkbox on click event
+						c.addEventListener('click', function() {
+							setTimeout(function() {
+								toggleToolbars();
+							}, 50);
+						});
 					});
-				});
+				}
 			}
 
 			// Toggle toolbars
@@ -388,6 +501,5 @@
 		KTUtil.onDOMContentLoaded(function() {
 			KTDatatablesServerSide.init();
 		});
-
 	}
 </script>
