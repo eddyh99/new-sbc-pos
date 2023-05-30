@@ -11,14 +11,11 @@
 
 			// Private functions
 			var initDatatable = function() {
-				dt = $("#kt_datatable_kelompok").DataTable({
+				dt = $("#kt_datatable_varian").DataTable({
 					bDestroy: true,
 					searchDelay: 500,
 					processing: true,
 					serverSide: false,
-					order: [
-						[2, 'desc']
-					],
 					stateSave: true,
 					select: {
 						style: 'multi',
@@ -26,25 +23,25 @@
 						className: 'row-selected'
 					},
 					ajax: {
-						url: "<?= base_url(); ?>product/listkelompok",
+						url: "<?= base_url(); ?>product/listvarian",
 						type: "POST",
 
 						dataSrc: function(data) {
-							// console.log(data["kelompok"]);
-							return data["kelompok"];
+							console.log(data["varian"]);
+							return data["varian"];
 						},
 					},
 					columns: [{
 							data: 'id'
 						},
 						{
-							data: 'kelompok'
+							data: 'namavarian'
 						},
 						{
-							data: 'jml'
+							data: 'subvarian'
 						},
 						{
-							data: null
+							data: 'id'
 						},
 					],
 					columnDefs: [{
@@ -65,7 +62,7 @@
 							className: 'text-end',
 							render: function(data, type, row) {
 								return `
-                            <a href="<?= base_url(); ?>product/editkelompok/` + encodeURI(btoa(data.id)) + `"  class="btn btn-light-success btn-active-success btn-sm">
+                            <a href="<?= base_url() ?>product/editvarian/` + encodeURI(btoa(data)) + `" class="btn btn-light-success btn-active-success btn-sm">
 								<i class="ki-duotone fs-2 ki-notepad-edit">
 									<i class="path1"></i>
 									<i class="path2"></i>
@@ -99,9 +96,11 @@
 			// Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
 			var handleSearchDatatable = function() {
 				const filterSearch = document.querySelector('[data-kt-docs-table-filter="search"]');
-				filterSearch.addEventListener('keyup', function(e) {
-					dt.search(e.target.value).draw();
-				});
+				if (filterSearch) {
+					filterSearch.addEventListener('keyup', function(e) {
+						dt.search(e.target.value).draw();
+					});
+				}
 			}
 
 			// Delete customer
@@ -118,12 +117,12 @@
 						const parent = e.target.closest('tr');
 
 						// Get customer name
-						const kelompok = parent.querySelectorAll('td')[1].innerText;
+						const varian = parent.querySelectorAll('td')[1].innerText;
 						const id = parent.querySelectorAll('td span')[0].innerText;
 
 						// SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
 						Swal.fire({
-							text: "Apakah kamu yakin menghapus " + kelompok + "? Data yang terkait dengan data " + kelompok + " tersebut akan dihapus juga!",
+							text: "Apakah kamu yakin menghapus " + varian + "? Data yang terkait dengan data " + varian + " tersebut akan dihapus juga!",
 							icon: "warning",
 							showCancelButton: true,
 							buttonsStyling: false,
@@ -137,18 +136,18 @@
 							if (result.value) {
 								$.ajax({
 									type: 'POST',
-									url: "<?= base_url() ?>product/deletekelompok?kelompok=" + id,
+									url: "<?= base_url() ?>product/deleteVarian?id=" + id,
 									cache: false,
 									error: function(xhr, status, error) {
 										Swal.fire({
-											text: "Deleting " + kelompok,
+											text: "Deleting " + varian,
 											icon: "info",
 											buttonsStyling: false,
 											showConfirmButton: false,
 											timer: 2000
 										}).then(function() {
 											Swal.fire({
-												text: kelompok + " gagal dihapus!.",
+												text: varian + " gagal dihapus!.",
 												icon: "error",
 												buttonsStyling: false,
 												confirmButtonText: "Ok!",
@@ -160,14 +159,14 @@
 									},
 									success: function(data) {
 										Swal.fire({
-											text: "Deleting " + kelompok,
+											text: "Deleting " + varian,
 											icon: "info",
 											buttonsStyling: false,
 											showConfirmButton: false,
 											timer: 2000
 										}).then(function() {
 											Swal.fire({
-												text: "Berhasil menghapus " + kelompok + "!.",
+												text: "Berhasil menghapus " + varian + "!.",
 												icon: "success",
 												buttonsStyling: false,
 												confirmButtonText: "Ok!",
@@ -182,7 +181,7 @@
 								});
 							} else if (result.dismiss === 'cancel') {
 								Swal.fire({
-									text: kelompok + " tidak dihapus!.",
+									text: varian + " tidak dihapus!.",
 									icon: "error",
 									buttonsStyling: false,
 									confirmButtonText: "Ok!",
@@ -200,24 +199,26 @@
 			var initToggleToolbar = function() {
 				// Toggle selected action toolbar
 				// Select all checkboxes
-				const container = document.querySelector('#kt_datatable_kelompok');
-				const checkboxes = container.querySelectorAll('[type="checkbox"]');
+				const container = document.querySelector('#kt_datatable_varian');
+				if (container) {
+					const checkboxes = container.querySelectorAll('[type="checkbox"]');
 
-				// Toggle delete selected toolbar
-				checkboxes.forEach(c => {
-					// Checkbox on click event
-					c.addEventListener('click', function() {
-						setTimeout(function() {
-							toggleToolbars();
-						}, 50);
+					// Toggle delete selected toolbar
+					checkboxes.forEach(c => {
+						// Checkbox on click event
+						c.addEventListener('click', function() {
+							setTimeout(function() {
+								toggleToolbars();
+							}, 50);
+						});
 					});
-				});
+				}
 			}
 
 			// Toggle toolbars
 			var toggleToolbars = function() {
 				// Define variables
-				const container = document.querySelector('#kt_datatable_kelompok');
+				const container = document.querySelector('#kt_datatable_varian');
 
 				// Select refreshed checkbox DOM elements
 				const allCheckboxes = container.querySelectorAll('tbody [type="checkbox"]');

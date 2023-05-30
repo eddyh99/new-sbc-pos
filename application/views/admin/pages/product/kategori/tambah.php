@@ -3,14 +3,14 @@
 	<!--begin::Row-->
 	<div class="row gy-5 g-xl-10 mb-5 mb-xl-0">
 		<!--begin::Col-->
-		<div class="col-md mb-xl-10" id="changeData">
+		<div class="col-md mb-xl-10">
 			<!--begin::Card-->
 			<div class="card card-flush mt-6 mt-xl-9">
 				<!--begin::Card header-->
 				<div class="card-header mt-5">
 					<!--begin::Card title-->
 					<div class="card-title flex-column">
-						<h3 class="fw-bold mb-1">Ubah Data Kategori</h3>
+						<h3 class="fw-bold mb-1">Tambah Kategori</h3>
 						<!-- <div class="fs-6 text-gray-400">Total $260,300 sepnt so far</div> -->
 					</div>
 					<!--end::Card title-->
@@ -19,10 +19,7 @@
 				<!--begin::Card body-->
 				<div class="card-body pt-0">
 					<!--begin::Form-->
-					<form id="form_change_kategori" class="form" method="post" autocomplete="off">
-						<input name="id_outlets" type="text" value="<?= $dt_kategori->outlet ?>" hidden>
-						<input name="id_kt" type="text" value="<?= $dt_kategori->id ?>" hidden>
-
+					<form id="form_kategori" class="form" method="post" autocomplete="off">
 						<!--begin::Input group-->
 						<div class="fv-row mb-5">
 							<!--begin::Label-->
@@ -30,7 +27,7 @@
 							<!--end::Label-->
 
 							<!--begin::Input-->
-							<input type="text" name="name" class="form-control mb-3 mb-lg-0" value="<?= $dt_kategori->kategori ?>" />
+							<input type="text" name="name" class="form-control mb-3 mb-lg-0" placeholder="Drink ext." value="" />
 							<!--end::Input-->
 						</div>
 						<!--end::Input group-->
@@ -46,43 +43,38 @@
 								<option></option>
 								<?php foreach ($dt_kelompok as $dtkel) {
 								?>
-									<option value="<?= $dtkel->id; ?>" <?= ($dtkel->id == $dt_kategori->id_kelompok) ? 'selected' : ''; ?>><?= $dtkel->kelompok; ?></option>
+									<option value="<?= $dtkel->id; ?>"><?= $dtkel->kelompok; ?></option>
 								<?php
 								} ?>
 							</select>
 							<!--end::Input Select-->
 						</div>
 						<!--end::Input group-->
-
-						<!--begin::Input group-->
-						<div class="fv-row">
-							<!--begin::Label-->
-							<label class="fw-semibold fs-6 mb-2">Atur Outlet</label>
-							<!--end::Label-->
-							<div id="list_ot_kt">
-							</div>
-						</div>
-						<!--end::Input group-->
-
 						<!--begin::Repeater-->
-						<div class="fv-row mb-10" id="addNewOT">
-							<div data-repeater-list="addNewOT">
+						<div class="fv-row mb-10" id="addSubForm">
+							<div data-repeater-list="addSubForm">
 								<div data-repeater-item class="mb-5">
 									<div class="form-group row">
 										<div class="col">
+											<!--begin::Label-->
+											<label class="required fw-semibold fs-6 mb-2">Atur Outlet</label>
+											<!--end::Label-->
+
 											<!--begin::Input Select-->
-											<select class="form-select" data-control="select2" data-placeholder="Pilih Outlet Baru" name="new_ot">
+											<select class="form-select mb-3" data-kt-repeater="select2" data-placeholder="Pilih Outlet" name="outlet">
 												<option></option>
-												<?php foreach ($dt_outlet as $dtoutlet) { ?>
+												<?php foreach ($dt_outlet as $dtoutlet) {
+												?>
 													<option value="<?= $dtoutlet->id; ?>"><?= $dtoutlet->namaoutlet; ?></option>
-												<?php } ?>
+												<?php
+												} ?>
 											</select>
 											<!--end::Input Select-->
 
 											<!--begin::Input Checkbox-->
-											<div class="form-check form-switch form-check-custom form-check-success form-check-solid mt-3">
-												<input class="form-check-input h-20px w-30px" type="checkbox" value="yes" id="new_show" name="new_show" />
-												<label class="form-check-label" for="new_show">
+											<div class="form-check form-switch form-check-custom form-check-success form-check-solid">
+												<input class="form-check-input h-20px w-30px" type="checkbox" value="yes" id="flexSwitch20x30" name="show" />
+												<label class="form-check-label" for="flexSwitch20x30">
 													Tampilkan di Menu
 												</label>
 											</div>
@@ -91,7 +83,7 @@
 										</div>
 
 										<div class="col-2">
-											<a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger">
+											<a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-10">
 												<i class="ki-duotone ki-trash fs-2">
 													<span class="path1"></span>
 													<span class="path2"></span>
@@ -116,7 +108,7 @@
 						<!--end::Input group-->
 
 						<!--begin::Actions-->
-						<button id="btn_change_kategori" type="submit" class="btn btn-primary">
+						<button id="btn_submit_kategori" type="submit" class="btn btn-primary">
 							<span class="indicator-label">
 								Simpan
 							</span>
