@@ -162,15 +162,6 @@ class Kategori extends CI_Controller
 			$result = apisbc($url, json_encode($mdata));
 
 			if (@$result->code == 200) {
-				// if ($listDel != NULL) {
-				// 	foreach ($listDel as $ls) {
-				// 		$urlDel = URLAPI . "/v1/outlet/delete_list_ot_kategori?kt=" . $ls['kt'] . "&ot=" . $ls['ot'];
-				// 		$resultDel = apisbc($urlDel);
-				// 		if (@$resultDel->code == 200) {
-				// 			$messages = 'Data berhasil dirubah!';
-				// 		}
-				// 	}
-				// }
 				$messages = 'Data berhasil dirubah!';
 			} else {
 				header('HTTP/1.1 500 Internal Server Error');

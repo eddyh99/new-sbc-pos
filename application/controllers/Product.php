@@ -449,16 +449,45 @@ class Product extends CI_Controller
 
 	public function addproduk()
 	{
+		$url_outlet = URLAPI . "/v1/outlet/get_outlet?member_id=" . $_SESSION['user_id'];
+		$outlet   = apisbc($url_outlet)->messages;
+
+		$url_kategori = URLAPI . "/v1/kategori/get_data_kategori?member_id=" . $_SESSION['user_id'];
+		$kategori = apisbc($url_kategori)->messages;
+
 		$data = array(
 			"title"     => NAMETITLE . " - Product",
 			"content"   => "admin/pages/product/produk-add-step-1",
 			"titlehead"     => "Product / Tambah Produk",
 			"show_produk"   => "show",
 			"mn_produk3"   => "active",
-			"private_js"   => "admin/pages/product/js/index",
+			"private_js"   => "admin/pages/product/js/produk_js",
+			"outlet"   => $outlet,
+			"kategori"   => $kategori,
 		);
 
 		$this->load->view('admin/wrapper', $data);
+	}
+
+	public function getImages()
+	{
+		$messages = '';
+		if (!empty($_FILES["foto"]["name"])) {
+			$listImg = [];
+			foreach ($_FILES["foto"] as $dt) {
+				print("<pre>" . print_r($dt, true) . "</pre>");
+				for ($i = 0; $i < count($dt); $i++) {
+					// $temp['name'] = $dt[$i];
+					print("<pre>" . print_r($dt[$i], true) . "</pre>");
+				}
+			}
+			// $messages = base64_encode(file_get_contents($_FILES["foto"]));
+		}
+
+		echo $messages;
+		print("<pre>" . print_r($_FILES["foto"], true) . "</pre>");
+		die;
+		// echo json_encode($messages);
 	}
 
 	public function addprodukstep2()
@@ -469,7 +498,7 @@ class Product extends CI_Controller
 			"titlehead"     => "Product / Tambah Produk",
 			"show_produk"   => "show",
 			"mn_produk3"   => "active",
-			"private_js"   => "admin/pages/product/js/index",
+			"private_js"   => "admin/pages/product/js/produk_step2_js",
 		);
 
 		$this->load->view('admin/wrapper', $data);
